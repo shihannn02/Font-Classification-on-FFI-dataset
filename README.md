@@ -79,7 +79,7 @@ I initially tested PCA dimensionality reduction from 100 to 1000 dimensions (in 
 I evaluated Random Forest as an alternative feature reduction method. The initial Random Forest model achieved 73.37% accuracy and helped identify feature importance. After removing 521 less important features (those with importance < 0.00055), the SVM model achieved 70.86% accuracy. While this slightly reduced accuracy, it improved computational efficiency by 50% through eliminating approximately one-third of the features. Since PCA demonstrated superior accuracy, it was selected for the final model training phase.
 
 <div align="center">
-<img width="598" alt="截屏2024-11-26 22 44 58" src="https://github.com/user-attachments/assets/a847c23c-f0e0-4a24-ba5e-25da1131a405">
+  <img width="598" alt="截屏2024-11-26 22 44 58" src="https://github.com/user-attachments/assets/a847c23c-f0e0-4a24-ba5e-25da1131a405">
 </div>
 
 ### Model selection
