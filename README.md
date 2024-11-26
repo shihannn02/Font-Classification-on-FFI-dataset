@@ -14,7 +14,7 @@ I simply check some of the basic information of the data through coding, and ran
 Meanwhile, I also checked what the fonts of each category looked like, as well as their distribution in pictures and texts. By which I mean I checked the first text of each font category and the plot is shown below.
 
 <div align="center">
-<img width="726" alt="截屏2024-11-26 19 18 54" src="https://github.com/user-attachments/assets/1512da10-b494-412d-a815-e4a04387f90e">
+  <img width="726" alt="截屏2024-11-26 19 18 54" src="https://github.com/user-attachments/assets/1512da10-b494-412d-a815-e4a04387f90e">
 </div>
 
 ### Data preprocessing
@@ -26,7 +26,7 @@ The proposed data preprocessing workflow is shown below, which is divided into 4
 3. The next step is to divide the image containing three letters, that is, the original image size is 150 * 50 into three equal parts.
 4. Finally, resize all the processed images to a size of 40 * 40
 
-<div align="center"><div align="center">
+<div align="center">
   <img width="412" alt="截屏2024-11-26 22 24 15" src="https://github.com/user-attachments/assets/0d3130f6-9f43-453b-b2d4-9bd4f88dd712">
 </div>
 
