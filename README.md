@@ -1,6 +1,6 @@
-## Font Classification using SVM on FFI dataset
+# Font Classification using SVM on FFI dataset
 
-### Dataset Introduction
+## Dataset Introduction
 
 The dataset that I choose is called Font from Image (FFI), which is established by [Francois](https://github.com/frobertpixto/font-from-image/tree/main) in 2018. All the data that contained in FFI are synthetic images with fonts, where there are totally 11,760 images that are classified into 35 categories, with each class contains 336 images. Each class contains with 86 images with the size of 50*50 and 250 images with three letters with the size of (150*50). Simultaneously, the author also contained a font generator based on macOS system, which can automatically generate different images with different fonts.
 
@@ -17,7 +17,7 @@ Meanwhile, I also checked what the fonts of each category looked like, as well a
   <img width="726" alt="截屏2024-11-26 19 18 54" src="https://github.com/user-attachments/assets/1512da10-b494-412d-a815-e4a04387f90e">
 </div>
 
-### Data preprocessing
+## Data preprocessing
 
 The proposed data preprocessing workflow is shown below, which is divided into 4 steps:
 
@@ -49,7 +49,7 @@ After the above operations, I finally retrieve 29260 pictures and saved them und
   <img width="670" alt="截屏2024-11-26 22 30 47" src="https://github.com/user-attachments/assets/b616166a-cd60-45ae-836a-ca5b0eaa129c">
 </div>
 
-### Feature selection and feature extraction 
+## Feature selection and feature extraction 
 
 To improve model accuracy for classification tasks, I explored two approaches for processing features: PCA (Principal Component Analysis) for feature extraction and Random Forest for feature selection. These methods help reduce the complexity of the data by either mapping features to a lower-dimensional space or dropping less important features based on their rankings.
 
@@ -58,7 +58,7 @@ Both methods were applied to binary images generated using the Canny algorithm t
 **Feature extraction (PCA)** better captures spatial connections by fusing features into a low-dimensional representation, or
 **Feature selection (Random Forest)** effectively reduces dimensions by removing unimportant features while preserving key spatial information.
 
-#### Feature extraction method based on global image: Canny method
+### Feature extraction method based on global image: Canny method
 
 We used the Canny edge detection algorithm for image preprocessing due to its superior boundary detection accuracy, particularly important for handling noise from incomplete letter segmentation. This could be shown below. After comparing PCA and Random Forest for feature extraction, we chose PCA which improved accuracy by approximately 5%. The final implementation combines Canny edge detection, PCA (reduced to 210 dimensions), and an SVM classifier with RBF kernel.
 
@@ -66,7 +66,7 @@ We used the Canny edge detection algorithm for image preprocessing due to its su
   <img width="659" alt="截屏2024-11-26 22 40 05" src="https://github.com/user-attachments/assets/8a16da34-ba64-4f1a-a66a-dadae7e4a127">
 </div>
 
-#### Feature reduction: Canny + PCA
+### Feature reduction: Canny + PCA
 
 I initially tested PCA dimensionality reduction from 100 to 1000 dimensions (in intervals of 100) and found the best performance between 200-300 dimensions. After further testing this range with 10-dimension intervals, I determined that 210 dimensions yielded optimal results, which was selected as the final PCA parameter.
 
@@ -75,7 +75,7 @@ I initially tested PCA dimensionality reduction from 100 to 1000 dimensions (in 
   <img src="https://github.com/user-attachments/assets/9fd43250-2386-4047-b993-2bbd7fd4d3c0" alt="右图" width="424">
 </div>
 
-#### Feature reduction: Canny + Random Forest
+### Feature reduction: Canny + Random Forest
 
 I evaluated Random Forest as an alternative feature reduction method. The initial Random Forest model achieved 73.37% accuracy and helped identify feature importance. After removing 521 less important features (those with importance < 0.00055), the SVM model achieved 70.86% accuracy. While this slightly reduced accuracy, it improved computational efficiency by 50% through eliminating approximately one-third of the features. Since PCA demonstrated superior accuracy, it was selected for the final model training phase.
 
@@ -83,13 +83,13 @@ I evaluated Random Forest as an alternative feature reduction method. The initia
   <img width="598" alt="截屏2024-11-26 22 44 58" src="https://github.com/user-attachments/assets/a847c23c-f0e0-4a24-ba5e-25da1131a405">
 </div>
 
-### Model selection
+## Model selection
 
-#### SVM Introduction
+### SVM Introduction
 
 In my experiment, the model I used was SVM. SVM is a model based on statistical theory. SVM is a supervised learning algorithm based on statistical principles, which plays an important role in pattern recognition and can be widely used in many fields, including the problem of processing text classification involved in this experiment. I attempts to solve the font style classification problem through SVM, because SVM can reliably and efficiently complete some classification tasks by finding global optimal solutions. Compared with other algorithms, SVM has a good performance in dealing with small samples, nonlinear and high-dimensional problems. However, correspondingly, although SVM can have a good performance on high-dimensional data, when the feature dimension of the training vector increases, its training time and storage space also increase correspondingly. Therefore, the time and space complexity of processing large-scale data that modeled by SVM will increases linearly as the sample data number increase. At the same time, parameter adjustment is not easy for SVM. The preferred parameter adjustment method is resampling, but the side effect is that it requires the computer to do large quantities of computing, which is a very costly and time-consuming choice.
 
-#### Parameter selection
+### Parameter selection
 
 The following are some parameters of SVM that need to be adjusted in my experiment:
 
@@ -99,7 +99,7 @@ The following are some parameters of SVM that need to be adjusted in my experime
 
 **Gamma**: Only rbf, poly and sigmoid have Gamma values. Among them, the larger the gamma is, the higher the mapping dimension is, and the training result will be correspondingly improved. However, it is easy to cause over fitting, so we should carefully adjust it.
 
-### Experienment results analysis and discussion
+## Experienment results analysis and discussion
 
 I conducted parameter tuning using cross-validation for different SVM kernels:
 
@@ -133,15 +133,15 @@ When we only do Canny feature extraction on the data, the accuracy rate can reac
   
 </p>
 
-#### Analysis of feature selection and extraction
+### Analysis of feature selection and extraction
 
 In this experiment, I compared two feature reduction methods based on pixel-level features: PCA and Random Forest. PCA reduces dimensionality by combining existing features, which not only maintains essential information and reduces computational complexity but also preserves spatial relationships between pixels. In contrast, Random Forest directly discards less important features, which means the discarded pixel information and their spatial relationships are permanently lost. This fundamental difference explains why PCA demonstrated better performance in our experiment.
 
-#### Analysis of the time parameter
+### Analysis of the time parameter
 
 Due to SVM's computational intensity, parameter tuning was limited in scope. While we achieved 82.70% accuracy with polynomial kernel (c=0.001, gamma=1, degree=2), we couldn't exhaustively test all parameter combinations. The RBF kernel might potentially perform better with finer parameter tuning. Each cross-validation run (k=4) took 5-9 minutes depending on the kernel type, making extensive parameter searching computationally expensive in terms of both time and memory resources. This represents a practical trade-off between optimization potential and computational constraints.
 
-#### Analysis of the predicted results
+### Analysis of the predicted results
 
 It can be seen from the above conclusions that the recognition rate of the font of CarterOne is of the worst among all categories, with only 63% accuracy. It can be seen from the confusion matrix that it will be mistaken for a font called FredokaOne-Regular. Based on this observation, I printed 50 pictures of money in these two fonts for viewing, and the results are shown in the following figure. The image on the left is of the CarterOne category, and the image on the right is of the FredokaOne Regular category.
 
