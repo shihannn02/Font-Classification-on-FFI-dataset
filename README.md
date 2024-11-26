@@ -26,7 +26,7 @@ The proposed data preprocessing workflow is shown below, which is divided into 4
 4. Finally, resize all the processed images to a size of 40 * 40
 
 <div align="center"><div align="center">
-<img width="412" alt="截屏2024-11-26 22 24 15" src="https://github.com/user-attachments/assets/0d3130f6-9f43-453b-b2d4-9bd4f88dd712">
+  <img width="412" alt="截屏2024-11-26 22 24 15" src="https://github.com/user-attachments/assets/0d3130f6-9f43-453b-b2d4-9bd4f88dd712">
 </div>
 
 Although our image is a composite image, in order to prevent the noise inside the image from affecting the final prediction results, and to facilitate the detection of image edges during feature extraction, I decided to firstly use dilate convolution and erose convolution to process the areas where the image edges may generate noise. For the category of 150 * 50 images, I cut them into three equal parts, which can ensure that only one letter remains in each image after pre-processing. Finally, resize all images to 40 * 40 to ensure the same size when saving each image. The below plot shows the image of 50 * 50 and 150 * 50 after preprocessing respectively. 
@@ -39,13 +39,13 @@ Although our image is a composite image, in order to prevent the noise inside th
 Although some pictures do not completely separate the letters, such as the Allura regular class, because they have hyphenation, as shown below.
 
 <div align="center">
-<img width="528" alt="截屏2024-11-26 22 28 55" src="https://github.com/user-attachments/assets/6a43fbf6-6fb1-4f5e-b076-88745f05a425">
+  <img width="528" alt="截屏2024-11-26 22 28 55" src="https://github.com/user-attachments/assets/6a43fbf6-6fb1-4f5e-b076-88745f05a425">
 </div>
 
 After the above operations, I finally retrieve 29260 pictures and saved them under the name 'font_new'folder, and they are saved as .png format. To visualize the final outcome of image preprocessing, I randomly selected 50 images of a category called GreatVibes Regular for viewing below.
 
 <div align="center">
-<img width="670" alt="截屏2024-11-26 22 30 47" src="https://github.com/user-attachments/assets/b616166a-cd60-45ae-836a-ca5b0eaa129c">
+  <img width="670" alt="截屏2024-11-26 22 30 47" src="https://github.com/user-attachments/assets/b616166a-cd60-45ae-836a-ca5b0eaa129c">
 </div>
 
 ### Feature selection and feature extraction 
@@ -62,7 +62,7 @@ Both methods were applied to binary images generated using the Canny algorithm t
 We used the Canny edge detection algorithm for image preprocessing due to its superior boundary detection accuracy, particularly important for handling noise from incomplete letter segmentation. This could be shown below. After comparing PCA and Random Forest for feature extraction, we chose PCA which improved accuracy by approximately 5%. The final implementation combines Canny edge detection, PCA (reduced to 210 dimensions), and an SVM classifier with RBF kernel.
 
 <div align="center">
-<img width="659" alt="截屏2024-11-26 22 40 05" src="https://github.com/user-attachments/assets/8a16da34-ba64-4f1a-a66a-dadae7e4a127">
+  <img width="659" alt="截屏2024-11-26 22 40 05" src="https://github.com/user-attachments/assets/8a16da34-ba64-4f1a-a66a-dadae7e4a127">
 </div>
 
 #### Feature reduction: Canny + PCA
@@ -145,7 +145,7 @@ Due to SVM's computational intensity, parameter tuning was limited in scope. Whi
 It can be seen from the above conclusions that the recognition rate of the font of CarterOne is of the worst among all categories, with only 63% accuracy. It can be seen from the confusion matrix that it will be mistaken for a font called FredokaOne-Regular. Based on this observation, I printed 50 pictures of money in these two fonts for viewing, and the results are shown in the following figure. The image on the left is of the CarterOne category, and the image on the right is of the FredokaOne Regular category.
 
 <div align="center">
-<img width="726" alt="截屏2024-11-26 22 53 21" src="https://github.com/user-attachments/assets/ab832e82-846f-4992-814b-e70a6a0db803">
+  <img width="726" alt="截屏2024-11-26 22 53 21" src="https://github.com/user-attachments/assets/ab832e82-846f-4992-814b-e70a6a0db803">
 </div>
 
 Rather than relying solely on edge detection (which may struggle with visually similar fonts), we could enhance feature extraction by incorporating spatial measurements.
